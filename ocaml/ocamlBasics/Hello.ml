@@ -45,6 +45,68 @@ with [] -> 0
 |x::xs -> 1 + len xs
 
 let rec shortlen = function [] -> 0
-|x::xs -> 1 + len xs *)
+|x::xs -> 1 + len xs
+
+ *)
+
+(* mutually recursive *)
+    (* if functions call themselver indirectly via other functions
+    they are mutuallu recursive  *)
+
+(* let rec even n = if n = 0 then "even" else odd(n-1)
+and odd n = if n = 0 then "odd" else even(n-1) *)
+
+(* hint: to get the correct answer from this code call even function 
+    and give it a number you want to check *)
+(* 
+let rec listConcat l y = match l 
+    with [] -> y
+    |x::xs -> x :: listConcat xs y
+
+let rec lconcat = function [] -> fun y -> y
+    |x::xs -> fun y -> x::lconcat xs y *)
 
 
+(* Local Definitions *)
+
+(* let x = 5
+in let sq = x*x
+in sq+sq *)
+
+(* as far as I am concerned this is just a local usage of
+ let which can not be accessed from outside something like a local variable*)
+
+
+(* facit means factor it and it doesn't mean
+ fuck it get that though you thick skull :) *)
+ 
+(* let facit n  =  let rec 
+    iter m yet = if m> n then yet 
+        else iter (m+1) (m*yet)in iter 2 1 *)
+
+
+(* User Defined DataTypes *)
+
+type suit  = Diamonds| Hearts | Spades | Clubs
+
+type value  = Seven| Eight | Nine | Jack | Queen | King | Ten | Ace
+
+let string_of_suit = function 
+                (_,Diamonds) -> "Your card is a Diamond"
+                |(_,Hearts) -> "I can sence something red is it a Heart??"
+                |(_,Spades) -> "You seem to like crows it is a Spade"
+                |(_,Clubs) -> "Clubs really?"
+
+let takes c1 c2 = match (c1,c2) 
+    with ((f1, Queen),(f2, Queen)) -> f1 > f2
+        |((_, Queen),_) -> true
+        |(_, (_, Queen)) -> false
+        |((f1, Jack), (f2, Jack)) -> f1 > f2
+        |((_, Jack),    _) -> true
+        |(_, (_, Queen)) -> false
+        | ((Hearts,w1),(Hearts,w2)) -> w1 > w2
+        | ((Hearts,_),_) -> true
+        | (_,(Hearts,_)) -> false
+        | ((f1,w1),(f2,w2)) -> if f1=f2 then w1 > w2 else false
+
+(* Sum Types *)
