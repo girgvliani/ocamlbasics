@@ -153,7 +153,7 @@ let join a = match a with
 (* type sequence = End | Next of (int * sequence) *)
 
 (* polymorphic sequence: *)
-(* type 'a sequence = End| Next of ('a * 'a sequence)
+type 'a sequence = End| Next of ('a * 'a sequence)
 
 let rec nth n s = match (n,s) with 
     |(_, End) -> None
@@ -162,4 +162,4 @@ let rec nth n s = match (n,s) with
 
 let rec down = function 
     0 -> End
-    | n -> Next(n, down(n-1)) *)
+    | n -> Next(n, down(n-1))
