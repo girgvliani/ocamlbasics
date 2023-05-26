@@ -87,7 +87,7 @@ in sq+sq *)
 
 (* User Defined DataTypes *)
 
-type suit  = Diamonds| Hearts | Spades | Clubs
+(* type suit  = Diamonds| Hearts | Spades | Clubs
 
 type value  = Seven| Eight | Nine | Jack | Queen | King | Ten | Ace
 
@@ -107,6 +107,59 @@ let takes c1 c2 = match (c1,c2)
         | ((Hearts,w1),(Hearts,w2)) -> w1 > w2
         | ((Hearts,_),_) -> true
         | (_,(Hearts,_)) -> false
-        | ((f1,w1),(f2,w2)) -> if f1=f2 then w1 > w2 else false
+        | ((f1,w1),(f2,w2)) -> if f1=f2 then w1 > w2 else false *)
 
 (* Sum Types *)
+(* 
+type 'a option = None| Some of 'a *)
+
+(* Option is a module which collects 
+useful functions and values for option *)
+
+(* To be frank dont get how this works  *)
+
+(* let is_some x = match x with 
+    |Some _ -> true
+    |None -> false
+
+let get x = match x with 
+    |Some y -> y
+
+let value x a = match x with
+    |Some y -> y
+    |None -> None
+
+let map f x = match x with 
+    |Some y -> Some (f y)
+    |None -> None
+
+let join a = match a with 
+    |Some a' -> a'
+    |None -> None *)
+
+
+(* option type is useful in defining patial functions*)
+
+(* let rec get_value a l = match l with 
+    |[] -> None
+    |(b,z)::rest -> if a=b then Some z
+        else get_value a rest *)
+
+
+(* TODO have to check up on this dont get how this works*)
+
+
+(* int sequence: *)
+(* type sequence = End | Next of (int * sequence) *)
+
+(* polymorphic sequence: *)
+(* type 'a sequence = End| Next of ('a * 'a sequence)
+
+let rec nth n s = match (n,s) with 
+    |(_, End) -> None
+    |(0,Next (x,_)) -> Some x
+    |(n,Next (_,rest)) -> nth (n-1) rest
+
+let rec down = function 
+    0 -> End
+    | n -> Next(n, down(n-1)) *)
