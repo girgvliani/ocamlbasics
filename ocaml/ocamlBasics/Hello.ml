@@ -150,10 +150,12 @@ let join a = match a with
 
 
 (* int sequence: *)
+
 (* type sequence = End | Next of (int * sequence) *)
 
 (* polymorphic sequence: *)
-type 'a sequence = End| Next of ('a * 'a sequence)
+
+(* type 'a sequence = End| Next of ('a * 'a sequence)
 
 let rec nth n s = match (n,s) with 
     |(_, End) -> None
@@ -162,4 +164,108 @@ let rec nth n s = match (n,s) with
 
 let rec down = function 
     0 -> End
-    | n -> Next(n, down(n-1))
+    | n -> Next(n, down(n-1)) *)
+
+(* last call *)
+
+(* let f x = x +5
+let g y = let z = 7
+    in if y>5 then f (-y )
+        else z + f y *)
+
+(* tail recursion *)
+(* 
+let rec fac1 = function 
+    (1, acc) -> acc
+    |(n, acc) -> fac1 (n-1, n*acc)
+
+let rec loop x = if x<2 then x
+    else if x mod 2 = 0 then loop(x/2)
+    else loop(3*x+1) *)
+
+(* a recursive function is called a tail recursive function
+if all calls to f (are last)?? *)
+
+(* reversing a list using tail recursion *)
+
+(* let rec rev list = let rec r a l = 
+    match l 
+    with [] -> a
+    |x::xs -> r (x::a) xs
+    in r [] list *)
+
+
+(* Some List Functions *)
+
+(* let plus y x = x + y
+
+
+let rec map f  = function
+    [] -> []
+    |x::xs -> f x :: map f xs
+
+let rec fold_left f a = function
+    [] -> a
+    |x::xs -> fold_left f (f a x) xs
+
+let rec fold_right f = function
+    [] -> fun b -> b
+    |x::xs -> fun b -> f x (fold_right f xs b)
+
+let rec find_opt f = function
+    [] -> None
+    |x::xs -> if f x then Some x else find_opt f xs *)
+
+
+(* Polymorphic Datatypes *)
+
+(* type 'a tree =  Leaf of 'a
+    |Node of ('a tree * 'a tree)
+
+let rec size  = function 
+    Leaf _ -> 1
+    |Node(t,t') -> size t + size t'
+
+let rec flatten = function
+    Leaf x -> [x]
+    |Node (t,t') -> flatten t @ flatten t'
+
+let flatten1 t = let rec doit = function
+    (Leaf x, xs) -> x::xs
+    |(Node(t,t'), xs) -> let xs = doit(t',xs)
+        in doit (t,xs)
+    in doit (t, []) *)
+
+(* 
+type 'a queue = 'a list
+
+let dequeue =  function
+    [] -> (None, [])
+    |x::xs -> (Some x, xs)
+
+let enqueue x xs = xs @ [x] *)
+
+(* if we represent queue as two lists it gets better *)
+
+type 'a queue  = Queue of 'a list * 'a list
+
+let is_empty = function
+    Queue([],[]) -> true
+    |_ ->false
+
+let queue_of_list list = Queue(list, [])
+
+let list_of_queue = function
+    Queue(first , []) -> first
+    |Queue(first , last) -> first @ List.rev last
+
+let enqueue x (Queue (first, last)) =
+        Queue (first, x::last)
+
+let dequeue = function 
+    Queue ([], last) -> (match List.rev last 
+    with [] -> (None, Queue([],[]))
+    |x::xs -> (Some x, Queue (xs, [])))
+    |Queue(x::xs, last) -> (Some x, Queue (xs, last)) 
+
+
