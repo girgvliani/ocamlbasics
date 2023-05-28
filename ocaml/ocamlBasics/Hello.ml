@@ -111,12 +111,10 @@ let takes c1 c2 = match (c1,c2)
 
 (* Sum Types *)
 (* 
-type 'a option = None| Some of 'a *)
+type 'a option = None| Some of 'a  *)
 
 (* Option is a module which collects 
 useful functions and values for option *)
-
-(* To be frank dont get how this works  *)
 
 (* let is_some x = match x with 
     |Some _ -> true
@@ -135,7 +133,7 @@ let map f x = match x with
 
 let join a = match a with 
     |Some a' -> a'
-    |None -> None *)
+    |None -> None  *)
 
 
 (* option type is useful in defining patial functions*)
@@ -247,7 +245,7 @@ let enqueue x xs = xs @ [x] *)
 
 (* if we represent queue as two lists it gets better *)
 
-type 'a queue  = Queue of 'a list * 'a list
+(* type 'a queue  = Queue of 'a list * 'a list
 
 let is_empty = function
     Queue([],[]) -> true
@@ -267,5 +265,86 @@ let dequeue = function
     with [] -> (None, Queue([],[]))
     |x::xs -> (Some x, Queue (xs, [])))
     |Queue(x::xs, last) -> (Some x, Queue (xs, last)) 
+ *)
+
+(* CH5 Practical features of ocaml *)
+
+(* Some examples of pre-defined constructos for Exeptions *)
+
+(* Division_by_zero   
+    Invalid_argument of string
+    Failure of string
+    Match_Failure of string * int * int | incompetent match
+    Not_Found 
+    Out_of_memory
+    End_of_file
+    Exit
+*)
+
+(* an exeption is a first class citizen a value from a datatype "exn" *)
+
+(* to introduce a new exception we have to extend the datatype exn *)
+
+(* raising exceptions  *)
+
+(* let divide (n,m) = try (n/m) with Division_by_zero -> raise Division_by_zero
+
+let rec member x l = try if x = List.hd l then true else member x (List.tl l)
+    with Failure _ -> false *)
+
+(* to raise exception use the keywork raise *)
+
+(* let f (x,y) = x/(y-1)
+
+let g (x,y) = try let n = try f (x,y)
+    with Division_by_zero -> raise(Failure "Division by zero")
+        in string_of_int n
+    with Failure str -> "Error: "^str *)
 
 
+(* Textual Input and Output *)
+
+(* ocaml is not complitely functional  *)
+
+(* print_string "your number = " *)
+
+(*let x = read_line()  works in command line doesnt work here dont know why*)
+
+(* Reading from a file *)
+
+(* let infile = open_in "test";;
+val infile : in_channel = <abstr>
+input_line infile;;
+- : string = "The file’s single line ...";;
+input_line infile;;
+Exception: End_of_file *)
+
+(* this should happen it doesn't *)
+
+(* stdin : in_channel (is the strandard input as channel)
+    input_chat : in_channel -> char (returns the next character if the channel)
+    in_channel_length : in_channel -> int (returns the total length if the channel)
+*)
+
+(* let outfile = open_out "test" *)
+
+
+(*output_string outfile "Hello" *)
+
+
+(* close_out outfile this is for closing should be used independently  *)
+
+(* this creates a new file named test  *)
+
+
+(* Several actions can be sequences by the means of sequence operator  ';'*)
+
+(* print_string "Hello";
+print_string " ";
+print_string "Bye\n"; *)
+
+
+let rec iter f = function 
+    [] -> ()
+    |x::[] -> f x
+    |x::xs -> f x; iter f xs
